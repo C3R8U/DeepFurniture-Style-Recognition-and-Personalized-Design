@@ -1,0 +1,57 @@
+{
+  "study": "The Method of Home Product Style Recognition and Personalized Design Based on the Fusion of Support Vector Machine and Visual Morphological Features",
+  "purpose": "为论文样本重建与参数复现提供可执行配置；不宣称已获得原实验未公开的身份索引或训练权重",
+  "origin": {
+    "repository": "https://huggingface.co/datasets/byliu/DeepFurniture",
+    "reference_branch": "main",
+    "dataset_card_license": "afl-3.0",
+    "source_metadata_version": "1.0.0",
+    "source_levels": ["scenes", "instances", "identities"],
+    "reference_files": ["data/metadata/categories.json", "data/metadata/styles.json", "data/metadata/furnitures.jsonl"]
+  },
+  "target": {
+    "styles": ["Modern", "Nordic", "Chinese", "Industrial", "American"],
+    "categories": ["Chair", "Table", "Sofa", "Cabinet", "Lamp"],
+    "per_style_category": 500,
+    "target_total": 12500,
+    "split_ratios": {"train": 0.70, "validation": 0.15, "test": 0.15},
+    "per_cell_split_counts": {"train":350, "validation":75, "test":75},
+    "overall_split_counts": {"train":8750, "validation":1875, "test":1875},
+    "grouping_key": "identity_id",
+    "manual_label_approval": "required",
+    "random_seed": 2024
+  },
+  "preprocessing": {
+    "perceptual_hash": {"bits":64,"hamming_distance_max":8,"manual_duplicate_adjudication":true},
+    "classification": {"resize":[256,256],"crop":[224,224],"colorspace":"RGB", "normalize_mean":[0.485,0.456,0.406], "normalize_std":[0.229,0.224,0.225]},
+    "generation": {"size":[256,256],"colorspace":"RGB"},
+    "segmentation": {"source":"official_instance_RLE","largest_connected_component":true,"bbox_fallback_for_public_release":false},
+    "edges": {"method":"Canny","low":60,"high":160},
+    "outline": {"points":256,"gaussian_sigmas":[1,2,4,8,16],"morphology_output_dimensions":128,"exact_descriptor_projection":"not disclosed in the manuscript; do not assert exact original-code equivalence"},
+    "augmentation_training_only": {"horizontal_flip":true,"rotation_degrees":10,"scale_min":0.9,"scale_max":1.1,"brightness_fraction":0.15,"synchronize_geometry_between_streams":true}
+  },
+  "classification_model": {
+    "semantic_backbone":"ResNet-50","semantic_feature_dimensions":2048,"morphological_feature_dimensions":128,
+    "classifier":"MKL-SVM","kernel":"RBF","strategy":"One-vs-Rest",
+    "regularization_C":10,"gamma_semantic":0.015625,"gamma_morphological":0.0625,
+    "initial_kernel_weights":{"semantic":0.5,"morphological":0.5},
+    "kernel_weight_update":"projected_gradient","learning_rate":0.01,"maximum_iterations":200,
+    "convergence_tolerance":0.0001,"cross_validation_folds":5,"repeat_runs":5,"random_seed":2024
+  },
+  "generation_model": {
+    "type":"conditional_GAN","image_size":[256,256],"noise_dimensions":128,"style_embedding_dimensions":64,
+    "sketch_encoder":"4-layer CNN","generator":"8-layer U-Net","discriminator":"70x70 PatchGAN","style_classifier_classes":5,
+    "optimizer":"Adam","learning_rate":0.0002,"adam_betas":[0.5,0.999],"batch_size":16,
+    "epochs":180,"weight_init_normal_mean":0,"weight_init_normal_std":0.02,"random_seed":2024,
+    "training_hardware_from_manuscript":"NVIDIA RTX 3090 24GB",
+    "loss_weights": {"adversarial":null,"style":null,"morphology":null,"perceptual":null,"reconstruction":null},
+    "loss_weights_note":"原文表5的4个数值行缺失公式符号，无法无歧义映射到5个损失项，不得自行猜测。"
+  },
+  "label_agreement": {
+    "method":"Cohen_kappa_for_two_independent_annotators",
+    "style_kappa_manuscript":0.87,
+    "category_kappa_manuscript":0.92,
+    "must_recalculate_from_annotation_records":true
+  },
+  "status": "protocol_and_reconstruction_tools_only; processed_12500_records_not_available_in_this_package"
+}

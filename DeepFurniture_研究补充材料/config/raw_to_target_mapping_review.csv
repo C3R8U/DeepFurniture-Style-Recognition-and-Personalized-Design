@@ -1,0 +1,6 @@
+raw_style_id,raw_style_name,target_style_candidate,style_mapping_status,raw_category_id,raw_category_name,target_category_candidate,category_mapping_status,notes
+1,modern,Modern,requires_manual_confirmation,3,chair#stool,Chair,requires_manual_confirmation,modern不等于自动确认现代简约;chair#stool包含凳类
+8,Nordic,Nordic,requires_manual_confirmation,2,table,Table,requires_manual_confirmation,北欧家具需按论文标准复核
+4,Chinese,Chinese,requires_manual_confirmation,7,sofa,Sofa,requires_manual_confirmation,Chinese不直接等于新中式
+9,Industrial,Industrial,requires_manual_confirmation,1,cabinet#shelf,Cabinet,requires_manual_confirmation,cabinet#shelf包含架类
+3,European#American,American,requires_manual_confirmation,4,lamp,Lamp,requires_manual_confirmation,European#American并非纯美式标签

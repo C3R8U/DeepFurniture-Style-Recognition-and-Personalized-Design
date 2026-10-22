@@ -1,0 +1,6 @@
+# Requires Python >=3.10
+numpy>=1.24,<3
+Pillow>=10,<13
+opencv-python-headless>=4.8,<5
+pycocotools>=2.0.7,<3
+huggingface_hub>=0.25,<2

@@ -1,0 +1,12 @@
+{
+  "name": "DeepFurniture",
+  "version": "1.0.0",
+  "description": "A large-scale dataset for furniture understanding with rich annotations",
+  "citation": "Add citation here",
+  "license": "Add license here",
+  "statistics": {
+    "num_scenes": 24182,
+    "num_furnitures": 24742,
+    "num_queries": 7264
+  }
+}
